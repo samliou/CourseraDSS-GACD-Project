@@ -4,19 +4,9 @@
 ## Written by: Michael Gregory
 ## Date: 13-Jun-2015
 
-
-## Using the following 
-##     dataset: https://d396qusza40orc.cloudfront.net/getdata%2Fprojectfiles%2FUCI%20HAR%20Dataset.zip 
-## 1. Merges the training and the test sets to create one data set.
-## 2. Extracts only the measurements on the mean and standard deviation for each measurement. 
-## 3. Uses descriptive activity names to name the activities in the data set
-## 4. Appropriately labels the data set with descriptive variable names. 
-## 5. From the data set in step 4, creates a second, independent tidy data set with the average of 
-##    each variable for each activity and each subject.
-
 library(plyr)
 
-## Set some gneric variables
+## Set some general variables
 fileURL <- "https://d396qusza40orc.cloudfront.net/getdata%2Fprojectfiles%2FUCI%20HAR%20Dataset.zip"
 trueFileMD5 <- "d29710c9530a31f303801b6bc34bd895"
 trueFileVersion <- "1.0"
@@ -30,11 +20,6 @@ fullDataDir <- paste(baseDir, "/", dataDir, sep="")
 testDir <- paste(dataDir, "/test", sep="")
 trainDir <- paste(dataDir, "/train", sep="")
 
-testDF <- NULL    ##set to NULL for first DF read
-trainDF <- NULL   ##set to NULL for first DF read
-mergedDF <- data.frame()
-
-
 ##If the file doesn't already exist in baseDir download it and check md5
 if(!file.exists(zipFile)) {
         download.file(fileURL, destfile=zipFile, method="curl")
@@ -46,57 +31,70 @@ if(!file.exists(zipFile)) {
         }
 }
 
-## might need to unzip and read each file
-##if(!dir.exists(dataDir)) {
-##unzip(zipFile)
-##unzip(zipFile, list=TRUE)$Name
-##}
-
 ## 1. Merges the training and the test sets to create one data set.
 
-##for each file in "test" and "train" directory create an object
+##extract all file and directory names from the zip file
 zipFileList <- unzip(zipFile, list=TRUE)
 
-##merge all files for test dataset
+##for each file in "test" directory create an data frame
+print("Joining all files for test dataset")
+
+##extract only the filenames (not directories) from the "test" subdirectory
 searchString <- paste(testDir,".*txt",sep="")
-for( readFile in zipFileList[grep(searchString,zipFileList$Name),]$Name) {
+testFileList <- zipFileList[grep(searchString,zipFileList$Name),]$Name
+
+testDF <- NULL  ##set to NULL to create initial cbind
+
+for( readFile in testFileList) {
         ##get the filename to use as col.name
-        ##baseColName <- strsplit(tail(strsplit( readFile ,"/")[[1]],1),"\\.")[[1]][[1]]
         baseColName <- strsplit(tail(strsplit(readFile,"/")[[1]],1),"_test.txt")
         colNamePrefix <- paste(baseColName,"_",sep="")
-        print(colNamePrefix)
+        ##read into a temporary DF
         tempDF <- read.table(unz(zipFile,  readFile ))
+        ##assign the column names
         colnames(tempDF) <- NULL
         colnames(tempDF) <- colnames(tempDF, do.NULL = FALSE, prefix = colNamePrefix)
+        print(readFile)
+        
         if(is.null(testDF)) {
                 testDF <- tempDF
         }
-        else{
-                testDF <- join(testDF,tempDF)        
+        else {
+                testDF <- cbind(testDF,tempDF)
         }
-
 }
 
-##merge all files for train dataset
+##for each file in "train" directory create an data frame
+print("Joining all files for train dataset")
+
+##extract only the filenames (not directories) from the "train" subdirectory
 searchString <- paste(trainDir,".*txt",sep="")
-for( readFile in zipFileList[grep(searchString,zipFileList$Name),]$Name) {
+trainFileList <- zipFileList[grep(searchString,zipFileList$Name),]$Name
+
+trainDF <- NULL  ##set to NULL to create initial cbind
+
+for( readFile in trainFileList) {
         ##get the filename to use as col.name
-        ##baseColName <- strsplit(tail(strsplit( readFile ,"/")[[1]],1),"\\.")[[1]][[1]]
         baseColName <- strsplit(tail(strsplit(readFile,"/")[[1]],1),"_train.txt")
         colNamePrefix <- paste(baseColName,"_",sep="")
-        print(colNamePrefix)
+        ##read into a temporary DF
         tempDF <- read.table(unz(zipFile,  readFile ))
+        ##assign the column names
         colnames(tempDF) <- NULL
         colnames(tempDF) <- colnames(tempDF, do.NULL = FALSE, prefix = colNamePrefix)
+        print(readFile)
+        
         if(is.null(trainDF)) {
                 trainDF <- tempDF
         }
-        else{
-                trainDF <- join(trainDF,tempDF)        
+        else {
+                trainDF <- cbind(trainDF,tempDF)
         }
 }
 
-mergeDF<-rbind(testDF,trainDF)
+
+##print("Appending test and train data frames")
+mergeDF <- rbind(testDF,trainDF)
 
 
 ## 2. Extracts only the measurements on the mean and standard deviation for each measurement. 
@@ -106,12 +104,12 @@ mergeDF<-rbind(testDF,trainDF)
 
 ## 3. Uses descriptive activity names to name the activities in the data set
 
-activity_labelsDF <- read.table(unz(zipFile, "UCI HAR Dataset/activity_labels.txt"), row.names=1)  
+##activity_labelsDF <- read.table(unz(zipFile, "UCI HAR Dataset/activity_labels.txt"), row.names=1)  
 
 
 ## 4. Appropriately labels the data set with descriptive variable names. 
 
-featuresDF <- read.table(unz(zipFile, "UCI HAR Dataset/features.txt"), row.names=1)  
+##featuresDF <- read.table(unz(zipFile, "UCI HAR Dataset/features.txt"), row.names=1)  
 
 ## 5. From the data set in step 4, creates a second, independent tidy data set with the average of 
 ##    each variable for each activity and each subject.
