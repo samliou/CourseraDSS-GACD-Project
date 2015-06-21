@@ -5,6 +5,7 @@
 ## Date: 13-Jun-2015
 
 library(dplyr)
+##library(reshape2)
 
 ## Set some general variables
 fileURL <- "https://d396qusza40orc.cloudfront.net/getdata%2Fprojectfiles%2FUCI%20HAR%20Dataset.zip"
@@ -17,20 +18,19 @@ zipFileList <- list()
 dateDownloaded <- NULL
 
 dataDir <- "UCI HAR Dataset"
-##testDir <- paste(dataDir, "/test", sep="")
-##trainDir <- paste(dataDir, "/train", sep="")
 outputFile <- paste(baseDir,"/getdata-project-output.txt", sep="")
 
 ##If the file doesn't already exist in baseDir download it and check md5
 if(!file.exists(zipFile)) {
-        download.file(fileURL, destfile=zipFile, method="curl")
+        cat(sprintf("Downloading file %s \n\t to location %s.\n", fileURL, zipFile))
+        download.file(fileURL, destfile=zipFile, method="curl",quiet=TRUE)
         dateDownloaded <- date()
         zipFileMD5 <- digest::digest(algo = "md5", file=zipFile)
         if(zipFileMD5 != trueFileMD5) {
                 warning("Downloaded file has changed from original source for this script.  
                         This script may not work as originally intended.")
         }
-}
+} else cat(sprintf("Download file already exists in specified location. \n\t Using File: %s \n",zipFile))
 
 
 ## 1. Merges the training and the test sets to create one data set.  
@@ -44,12 +44,12 @@ for(i in c("test","train")) {
         subjectFile <- paste(dataDir,"/",i,"/subject_",i,".txt",sep="")
         activityFile <- paste(dataDir,"/",i,"/y_",i,".txt",sep="")
         
-        cat(sprintf("Reading in files: \n\t%s\n\t%s\n\t%s\n", dataFile,subjectFile,activityFile))
+        cat(sprintf("Reading in \"%s\" dataset files: \n\t%s\n\t%s\n\t%s\n", i,dataFile,subjectFile,activityFile))
         tempDF <- read.table(unz(zipFile, dataFile), row.names=NULL)
         ##assign the column names
         colnames(tempDF) <- featuresDF[,2]
         
-        ##append subject and activity files as additional columns.
+        ##prepend subject and activity files as additional columns.
         tempDF <- cbind(read.table(unz(zipFile, activityFile), col.names = "activity", row.names=NULL), tempDF)
         tempDF <- cbind(read.table(unz(zipFile, subjectFile), col.names = "subject", row.names=NULL), tempDF)
         
@@ -57,18 +57,19 @@ for(i in c("test","train")) {
                 mergeDF <- tempDF
         }
         else {
+                cat(sprintf("Merging test and train datasets.\n"))
                 mergeDF <- rbind(mergeDF,tempDF)
         }
 }
 
 
 ## 2. Extracts only the measurements on the mean and standard deviation for each measurement. 
-
+cat(sprintf("Extracting only *mean() and *std() variables from dataset.\n"))
 mergeDF <- mergeDF[,c(1,2,grep("std\\(\\)|mean\\(\\)",names(mergeDF)))]
 
 
 ## 3. Uses descriptive activity names to name the activities in the data set
-
+cat(sprintf("Adding descriptive activity names.\n"))
 activity_labelsDF <- read.table(unz(zipFile, "UCI HAR Dataset/activity_labels.txt"), row.names=NULL)  
 mergeDF$activity <- as.character(factor(mergeDF$activity, labels=activity_labelsDF[,2]))
 
@@ -76,6 +77,7 @@ mergeDF$activity <- as.character(factor(mergeDF$activity, labels=activity_labels
 ## 4. Appropriately labels the data set with descriptive variable names. 
 
 ##need to remove "-" and "()" from column names
+cat(sprintf("Cleaning up column names.\n"))
 cNames<-colnames(mergeDF)
 cNames<-gsub("-","\\.",cNames)
 cNames<-gsub("\\(\\)","",cNames)
@@ -84,16 +86,12 @@ colnames(mergeDF) <- cNames
 
 ## 5. From the data set in step 4, creates a second, independent tidy data set with the average of 
 ##    each variable for each activity and each subject.
-
-##The "wide" form of the data has 180 rows (and a number of columns equal to the features kept + 2 
-##      (one for subject, one for activities)).
-##The typical long form would be organised with the columns subject, activity, measure, mean but contain 
-##      the same actual numbers for the aggregate steps.
-
+cat(sprintf("Creating summary data frame with subject and activity by mean.\n"))
 meltDF<-melt(mergeDF,id.vars=c("subject","activity"))
 summaryDF<-dcast(meltDF,subject+activity~...,mean)
 
 
 ##output data set as a txt file created with write.table() using row.name=FALSE
+cat(sprintf("Saving summary data frame to \n\t File: %s.\n", outputFile))
 write.table(summaryDF, file=outputFile, row.name=FALSE)
 
