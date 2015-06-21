@@ -4,7 +4,7 @@
 ## Written by: Michael Gregory
 ## Date: 13-Jun-2015
 
-library(plyr)
+library(dplyr)
 
 ## Set some general variables
 fileURL <- "https://d396qusza40orc.cloudfront.net/getdata%2Fprojectfiles%2FUCI%20HAR%20Dataset.zip"
@@ -16,7 +16,6 @@ zipFileList <- list()
 dateDownloaded <- NULL
 
 dataDir <- "UCI HAR Dataset"
-fullDataDir <- paste(baseDir, "/", dataDir, sep="")
 testDir <- paste(dataDir, "/test", sep="")
 trainDir <- paste(dataDir, "/train", sep="")
 
@@ -31,88 +30,59 @@ if(!file.exists(zipFile)) {
         }
 }
 
-## 1. Merges the training and the test sets to create one data set.
 
-##extract all file and directory names from the zip file
-zipFileList <- unzip(zipFile, list=TRUE)
 
-##for each file in "test" directory create an data frame
-print("Joining all files for test dataset")
 
-##extract only the filenames (not directories) from the "test" subdirectory
-searchString <- paste(testDir,".*txt",sep="")
-testFileList <- zipFileList[grep(searchString,zipFileList$Name),]$Name
 
-testDF <- NULL  ##set to NULL to create initial cbind
+## 1. Merges the training and the test sets to create one data set.  
 
-for( readFile in testFileList) {
-        ##get the filename to use as col.name
-        baseColName <- strsplit(tail(strsplit(readFile,"/")[[1]],1),"_test.txt")
-        colNamePrefix <- paste(baseColName,"_",sep="")
-        ##read into a temporary DF
-        tempDF <- read.table(unz(zipFile,  readFile ))
-        ##assign the column names
-        colnames(tempDF) <- NULL
-        colnames(tempDF) <- colnames(tempDF, do.NULL = FALSE, prefix = colNamePrefix)
-        print(readFile)
+##Since it is not clear we will assume this is the X_train.txt and X_test.txt files.
+mergeDF <- NULL
+featuresDF <- read.table(unz(zipFile, "UCI HAR Dataset/features.txt"), row.names=NULL)  
+
+for(i in c("test","train")) {
+        dataFile <- paste(dataDir,"/",i,"/X_",i,".txt",sep="")
+        subjectFile <- paste(dataDir,"/",i,"/subject_",i,".txt",sep="")
+        activityFile <- paste(dataDir,"/",i,"/y_",i,".txt",sep="")
         
-        if(is.null(testDF)) {
-                testDF <- tempDF
+        cat(sprintf("Reading in files: \n\t%s\n\t%s\n\t%s\n", dataFile,subjectFile,activityFile))
+        tempDF <- read.table(unz(zipFile, dataFile), row.names=NULL)
+        ##assign the column names
+        colnames(tempDF) <- featuresDF[,2]
+        
+        ##append subject and activity files as additional columns.
+        tempDF <- cbind(read.table(unz(zipFile, activityFile), col.names = "activity", row.names=NULL), tempDF)
+        tempDF <- cbind(read.table(unz(zipFile, subjectFile), col.names = "subject", row.names=NULL), tempDF)
+        
+        if(is.null(mergeDF)) {
+                mergeDF <- tempDF
         }
         else {
-                testDF <- cbind(testDF,tempDF)
+                mergeDF <- rbind(mergeDF,tempDF)
         }
 }
 
-##for each file in "train" directory create an data frame
-print("Joining all files for train dataset")
-
-##extract only the filenames (not directories) from the "train" subdirectory
-searchString <- paste(trainDir,".*txt",sep="")
-trainFileList <- zipFileList[grep(searchString,zipFileList$Name),]$Name
-
-trainDF <- NULL  ##set to NULL to create initial cbind
-
-for( readFile in trainFileList) {
-        ##get the filename to use as col.name
-        baseColName <- strsplit(tail(strsplit(readFile,"/")[[1]],1),"_train.txt")
-        colNamePrefix <- paste(baseColName,"_",sep="")
-        ##read into a temporary DF
-        tempDF <- read.table(unz(zipFile,  readFile ))
-        ##assign the column names
-        colnames(tempDF) <- NULL
-        colnames(tempDF) <- colnames(tempDF, do.NULL = FALSE, prefix = colNamePrefix)
-        print(readFile)
-        
-        if(is.null(trainDF)) {
-                trainDF <- tempDF
-        }
-        else {
-                trainDF <- cbind(trainDF,tempDF)
-        }
-}
-
-
-##print("Appending test and train data frames")
-mergeDF <- rbind(testDF,trainDF)
 
 
 ## 2. Extracts only the measurements on the mean and standard deviation for each measurement. 
 
-
+mergeDF <- mergeDF[,c(1,2,grep("std\\(\\)|mean\\(\\)",names(mergeDF)))]
 
 
 ## 3. Uses descriptive activity names to name the activities in the data set
 
-##activity_labelsDF <- read.table(unz(zipFile, "UCI HAR Dataset/activity_labels.txt"), row.names=1)  
-
+activity_labelsDF <- read.table(unz(zipFile, "UCI HAR Dataset/activity_labels.txt"), row.names=NULL)  
+mergeDF$activity <- as.character(factor(mergeDF$activity, labels=activity_labelsDF[,2]))
 
 ## 4. Appropriately labels the data set with descriptive variable names. 
 
-##featuresDF <- read.table(unz(zipFile, "UCI HAR Dataset/features.txt"), row.names=1)  
+##See above (line ~50).  To me it makes more sense to have done this previously.
 
 ## 5. From the data set in step 4, creates a second, independent tidy data set with the average of 
 ##    each variable for each activity and each subject.
 
+##The "wide" form of the data has 180 rows (and a number of columns equal to the features kept + 2 (one for subject, one for activities)).
+
+##summaryDF <-group_by(mergeDF,subject)
 
 
