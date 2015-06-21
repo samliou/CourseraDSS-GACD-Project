@@ -2,10 +2,10 @@
 ## Course Project
 
 ## Written by: Michael Gregory
-## Date: 13-Jun-2015
+## Date: 21-Jun-2015
 
 library(dplyr)
-##library(reshape2)
+library(reshape2)
 
 ## Set some general variables
 fileURL <- "https://d396qusza40orc.cloudfront.net/getdata%2Fprojectfiles%2FUCI%20HAR%20Dataset.zip"
