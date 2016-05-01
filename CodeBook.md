@@ -1,5 +1,7 @@
 DATA DICTIONARY - Mean Summarization of Human Activity Recognition Using Smartphones Dataset
 
+The processed dataset includes the following variables.
+
 subject		
 	Subject number
 	Unique identifier assigned to each of the 30 volunteer participants
@@ -15,212 +17,72 @@ activity
 		5 .STANDING
 		6 .LAYING
 
-tBodyAcc.mean.X		
+tBodyAcc.mean.[X,Y,Z]		
 	Mean of multiple collections of mean estimate of time domain accelerometer measurement from 
-	body signal in X direction. 
+	body signal in X, Y, or Z direction. 
 	Captured at a constant rate of 50 Hz then filtered using a median filter and a 3rd order low 
 	pass Butterworth filter with a corner frequency of 20 Hz to remove noise.
 		0.0000000..0.9999999	.Mean
 
-tBodyAcc.mean.Y		
-	Mean of multiple collections of mean estimate of time domain accelerometer measurement from 
-	body signal in Y direction. 
-	Captured at a constant rate of 50 Hz then filtered using a median filter and a 3rd order low 
-	pass Butterworth filter with a corner frequency of 20 Hz to remove noise.
-		0.0000000..0.9999999	.Mean
-
-tBodyAcc.mean.Z		
-	Mean of multiple collections of mean estimate of time domain accelerometer measurement from 
-	body signal in Z direction. 
-	Captured at a constant rate of 50 Hz then filtered using a median filter and a 3rd order low 
-	pass Butterworth filter with a corner frequency of 20 Hz to remove noise.
-		0.0000000..0.9999999	.Mean
-
-tBodyAcc.std.X
+tBodyAcc.std.[X,Y,Z]
 	Mean of multiple collections of standard deviation estimate of time domain accelerometer 
-	measurement from body signal in X direction. 
+	measurement from body signal in X, Y, or Z direction. 
 	Captured at a constant rate of 50 Hz then filtered using a median filter and a 3rd order low 
 	pass Butterworth filter with a corner frequency of 20 Hz to remove noise.
 		0.0000000..0.9999999	.Mean
 
-tBodyAcc.std.Y
-	Mean of multiple collections of standard deviation estimate of time domain accelerometer 
-	measurement from body signal in Y direction. 
-	Captured at a constant rate of 50 Hz then filtered using a median filter and a 3rd order low 
-	pass Butterworth filter with a corner frequency of 20 Hz to remove noise.
-		0.0000000..0.9999999	.Mean
-
-tBodyAcc.std.Z
-	Mean of multiple collections of standard deviation estimate of time domain accelerometer 
-	measurement from body signal in Z direction. 
-	Captured at a constant rate of 50 Hz then filtered using a median filter and a 3rd order low 
-	pass Butterworth filter with a corner frequency of 20 Hz to remove noise.
-		0.0000000..0.9999999	.Mean
-
-tGravityAcc.mean.X
+tGravityAcc.mean.[X,Y,Z]
 	Mean of multiple collections of mean estimate of time domain accelerometer 
-	measurement from gravity signal in X direction. 
+	measurement from gravity signal in X, Y, or Z direction. 
 	Captured at a constant rate of 50 Hz then filtered using a median filter and a 3rd order low 
 	pass Butterworth filter with a corner frequency of 20 Hz to remove noise.
 		0.0000000..0.9999999	.Mean
 
-tGravityAcc.mean.Y
-	Mean of multiple collections of mean estimate of time domain accelerometer 
-	measurement from gravity signal in Y direction. 
-	Captured at a constant rate of 50 Hz then filtered using a median filter and a 3rd order low 
-	pass Butterworth filter with a corner frequency of 20 Hz to remove noise.
-		0.0000000..0.9999999	.Mean
-
-tGravityAcc.mean.Z
-	Mean of multiple collections of mean estimate of time domain accelerometer 
-	measurement from gravity signal in Z direction. 
-	Captured at a constant rate of 50 Hz then filtered using a median filter and a 3rd order low 
-	pass Butterworth filter with a corner frequency of 20 Hz to remove noise.
-		0.0000000..0.9999999	.Mean
-
-tGravityAcc.std.X
+tGravityAcc.std.[X,Y,Z]
 	Mean of multiple collections of standard deviation estimate of time domain accelerometer 
-	measurement from gravity signal in X direction. 
+	measurement from gravity signal in X, Y, or Z direction. 
 	Captured at a constant rate of 50 Hz then filtered using a median filter and a 3rd order low 
 	pass Butterworth filter with a corner frequency of 20 Hz to remove noise.
 		0.0000000..0.9999999	.Mean
 
-tGravityAcc.std.Y
-	Mean of multiple collections of standard deviation estimate of time domain accelerometer 
-	measurement from gravity signal in Y direction. 
-	Captured at a constant rate of 50 Hz then filtered using a median filter and a 3rd order low 
-	pass Butterworth filter with a corner frequency of 20 Hz to remove noise.
-		0.0000000..0.9999999	.Mean
-
-tGravityAcc.std.Z
-	Mean of multiple collections of standard deviation estimate of time domain accelerometer 
-	measurement from gravity signal in Z direction. 
-	Captured at a constant rate of 50 Hz then filtered using a median filter and a 3rd order low 
-	pass Butterworth filter with a corner frequency of 20 Hz to remove noise.
-		0.0000000..0.9999999	.Mean
-
-tBodyAccJerk.mean.X
+tBodyAccJerk.mean.[X,Y,Z]
 	Mean of multiple collections of mean estimate of time domain accelerometer measurement from 
-	body linear acceleration and angular velocity derived to obtain Jerk signals in the X direction.
+	body linear acceleration and angular velocity derived to obtain Jerk signals in the X, Y, or Z direction.
 	Captured at a constant rate of 50 Hz then filtered using a median filter and a 3rd order low 
 	pass Butterworth filter with a corner frequency of 20 Hz to remove noise.
 		0.0000000..0.9999999	.Mean
 
-tBodyAccJerk.mean.Y
-	Mean of multiple collections of mean estimate of time domain accelerometer measurement from 
-	body linear acceleration and angular velocity derived to obtain Jerk signals in the Y direction.
-	Captured at a constant rate of 50 Hz then filtered using a median filter and a 3rd order low 
-	pass Butterworth filter with a corner frequency of 20 Hz to remove noise.
-		0.0000000..0.9999999	.Mean
-
-tBodyAccJerk.mean.Z
-	Mean of multiple collections of mean estimate of time domain accelerometer measurement from 
-	body linear acceleration and angular velocity derived to obtain Jerk signals in the Z direction.
-	Captured at a constant rate of 50 Hz then filtered using a median filter and a 3rd order low 
-	pass Butterworth filter with a corner frequency of 20 Hz to remove noise.
-		0.0000000..0.9999999	.Mean
-
-tBodyAccJerk.std.X
+tBodyAccJerk.std.[X,Y,Z] 
 	Mean of multiple collections of standard deviation estimate of time domain accelerometer measurement from 
-	body linear acceleration and angular velocity derived to obtain Jerk signals in the X direction.
+	body linear acceleration and angular velocity derived to obtain Jerk signals in the X, Y, or Z direction.
 	Captured at a constant rate of 50 Hz then filtered using a median filter and a 3rd order low 
 	pass Butterworth filter with a corner frequency of 20 Hz to remove noise.
 		0.0000000..0.9999999	.Mean
 
-tBodyAccJerk.std.Y
-	Mean of multiple collections of standard deviation estimate of time domain accelerometer measurement from 
-	body linear acceleration and angular velocity derived to obtain Jerk signals in the Y direction.
-	Captured at a constant rate of 50 Hz then filtered using a median filter and a 3rd order low 
-	pass Butterworth filter with a corner frequency of 20 Hz to remove noise.
-		0.0000000..0.9999999	.Mean
-
-tBodyAccJerk.std.Z
-	Mean of multiple collections of standard deviation estimate of time domain accelerometer measurement from 
-	body linear acceleration and angular velocity derived to obtain Jerk signals in the Z direction.
-	Captured at a constant rate of 50 Hz then filtered using a median filter and a 3rd order low 
-	pass Butterworth filter with a corner frequency of 20 Hz to remove noise.
-		0.0000000..0.9999999	.Mean
-
-tBodyGyro.mean.X
+tBodyGyro.mean.[X,Y,Z]
 	Mean of multiple collections of mean estimate of time domain gyroscopic measurement from 
-	body signal in X direction. 
+	body signal in X, Y, or Z direction. 
 	Captured at a constant rate of 50 Hz then filtered using a median filter and a 3rd order low 
 	pass Butterworth filter with a corner frequency of 20 Hz to remove noise.
 		0.0000000..0.9999999	.Mean
 
-tBodyGyro.mean.Y
-	Mean of multiple collections of mean estimate of time domain gyroscopic measurement from 
-	body signal in Y direction. 
-	Captured at a constant rate of 50 Hz then filtered using a median filter and a 3rd order low 
-	pass Butterworth filter with a corner frequency of 20 Hz to remove noise.
-		0.0000000..0.9999999	.Mean
-
-tBodyGyro.mean.Z
-	Mean of multiple collections of mean estimate of time domain gyroscopic measurement from 
-	body signal in Z direction. 
-	Captured at a constant rate of 50 Hz then filtered using a median filter and a 3rd order low 
-	pass Butterworth filter with a corner frequency of 20 Hz to remove noise.
-		0.0000000..0.9999999	.Mean
-
-tBodyGyro.std.X
+tBodyGyro.std.[X,Y,Z]
 	Mean of multiple collections of standard deviation estimate of time domain gyroscopic measurement from 
-	body signal in X direction. 
+	body signal in X, Y, or Z direction. 
 	Captured at a constant rate of 50 Hz then filtered using a median filter and a 3rd order low 
 	pass Butterworth filter with a corner frequency of 20 Hz to remove noise.
 		0.0000000..0.9999999	.Mean
 
-tBodyGyro.std.Y
+tBodyGyroJerk.mean.[X,Y,Z]
 	Mean of multiple collections of mean estimate of time domain gyroscopic measurement from 
-	body signal in Y direction. 
+	body linear acceleration and angular velocity derived to obtain Jerk signals in the X, Y, or Z direction.
 	Captured at a constant rate of 50 Hz then filtered using a median filter and a 3rd order low 
 	pass Butterworth filter with a corner frequency of 20 Hz to remove noise.
 		0.0000000..0.9999999	.Mean
 
-tBodyGyro.std.Z
-	Mean of multiple collections of mean estimate of time domain gyroscopic measurement from 
-	body signal in Z direction. 
-	Captured at a constant rate of 50 Hz then filtered using a median filter and a 3rd order low 
-	pass Butterworth filter with a corner frequency of 20 Hz to remove noise.
-		0.0000000..0.9999999	.Mean
-
-tBodyGyroJerk.mean.X
-	Mean of multiple collections of mean estimate of time domain gyroscopic measurement from 
-	body linear acceleration and angular velocity derived to obtain Jerk signals in the X direction.
-	Captured at a constant rate of 50 Hz then filtered using a median filter and a 3rd order low 
-	pass Butterworth filter with a corner frequency of 20 Hz to remove noise.
-		0.0000000..0.9999999	.Mean
-
-tBodyGyroJerk.mean.Y
-	Mean of multiple collections of mean estimate of time domain gyroscopic measurement from 
-	body linear acceleration and angular velocity derived to obtain Jerk signals in the Y direction.
-	Captured at a constant rate of 50 Hz then filtered using a median filter and a 3rd order low 
-	pass Butterworth filter with a corner frequency of 20 Hz to remove noise.
-		0.0000000..0.9999999	.Mean
-
-tBodyGyroJerk.mean.Z
-	Mean of multiple collections of mean estimate of time domain gyroscopic measurement from 
-	body linear acceleration and angular velocity derived to obtain Jerk signals in the Z direction.
-	Captured at a constant rate of 50 Hz then filtered using a median filter and a 3rd order low 
-	pass Butterworth filter with a corner frequency of 20 Hz to remove noise.
-		0.0000000..0.9999999	.Mean
-
-tBodyGyroJerk.std.X
+tBodyGyroJerk.std.[X,Y,Z]
 	Mean of multiple collections of standard deviation estimate of time domain gyroscopic measurement from 
-	body linear acceleration and angular velocity derived to obtain Jerk signals in the X direction.
-	Captured at a constant rate of 50 Hz then filtered using a median filter and a 3rd order low 
-	pass Butterworth filter with a corner frequency of 20 Hz to remove noise.
-		0.0000000..0.9999999	.Mean
-
-tBodyGyroJerk.std.Y
-	Mean of multiple collections of standard deviation estimate of time domain gyroscopic measurement from 
-	body linear acceleration and angular velocity derived to obtain Jerk signals in the Y direction.
-	Captured at a constant rate of 50 Hz then filtered using a median filter and a 3rd order low 
-	pass Butterworth filter with a corner frequency of 20 Hz to remove noise.
-		0.0000000..0.9999999	.Mean
-
-tBodyGyroJerk.std.Z
-	Mean of multiple collections of standard deviation estimate of time domain gyroscopic measurement from 
-	body linear acceleration and angular velocity derived to obtain Jerk signals in the Z direction.
+	body linear acceleration and angular velocity derived to obtain Jerk signals in the X, Y, or Z direction.
 	Captured at a constant rate of 50 Hz then filtered using a median filter and a 3rd order low 
 	pass Butterworth filter with a corner frequency of 20 Hz to remove noise.
 		0.0000000..0.9999999	.Mean
@@ -259,24 +121,12 @@ tBodyGyroMag.mean
 tBodyGyroMag.std
 tBodyGyroJerkMag.mean
 tBodyGyroJerkMag.std
-fBodyAcc.mean.X
-fBodyAcc.mean.Y
-fBodyAcc.mean.Z
-fBodyAcc.std.X
-fBodyAcc.std.Y
-fBodyAcc.std.Z
-fBodyAccJerk.mean.X
-fBodyAccJerk.mean.Y
-fBodyAccJerk.mean.Z
-fBodyAccJerk.std.X
-fBodyAccJerk.std.Y
-fBodyAccJerk.std.Z
-fBodyGyro.mean.X
-fBodyGyro.mean.Y
-fBodyGyro.mean.Z
-fBodyGyro.std.X
-fBodyGyro.std.Y
-fBodyGyro.std.Z
+fBodyAcc.mean.[X,Y,Z]
+fBodyAcc.std.[X,Y,Z]
+fBodyAccJerk.mean.[X,Y,Z]
+fBodyAccJerk.std.[X,Y,Z]
+fBodyGyro.mean.[X,Y,Z]
+fBodyGyro.std.[X,Y,Z]
 fBodyAccMag.mean
 fBodyAccMag.std
 fBodyBodyAccJerkMag.mean

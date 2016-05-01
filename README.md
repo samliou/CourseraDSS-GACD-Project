@@ -3,12 +3,27 @@ Coursera Data Science Specialization, Getting and Cleaning Data Quiz Solutions
 
 Synopsis
 
-This repository implements solutions for the course project for the Coursera Course Getting and Cleaning Data.
+This repository implements solutions for the course project for the Coursera Course 
+Getting and Cleaning Data and creates a tidy dataset based on the original data of the 
+Human Activity Recognition project 
+(http://archive.ics.uci.edu/ml/datasets/Human+Activity+Recognition+Using+Smartphones).
+
+Files
+The R-code (run_analysis.R) generates a tidy dataset saved to a file 
+(getdata-project-output.txt).
+
 
 Code Example
-run_analysis.R:  This script takes no input variables and expects only the working directory to be set (via setwd())
-1. If the download file (https://d396qusza40orc.cloudfront.net/getdata%2Fprojectfiles%2FUCI%20HAR%20Dataset.zip) doesn’t exist in the working directory it will download it and check against a known hash code for version control.  The specifically desired files for the test and train datasets are extracted into data frames and combined into a single data frame.
-2. Only the feature variables including *mean() and *std() in the variable name are kept.
+run_analysis.R:  This script takes no input variables and expects only the working 
+directory to be set (via setwd()) 
+
+1. If the download file 
+(https://d396qusza40orc.cloudfront.net/getdata%2Fprojectfiles%2FUCI%20HAR%20Dataset.zip) 
+doesn’t exist in the working directory it will download it and check against a known MD5 
+hash code for version control.  The specifically desired files for the test and train 
+datasets are extracted into data frames and combined into a single data frame.
+2. After merging the test and train datasets, only the feature variables including 
+*mean() and *std() in the variable name are kept.
 3. Descriptive names are given to each activity.
 4. Column names are cleaned up to remove “_” and “()” which are difficult for processing.
 5. A tidy data frame is created according to the following:

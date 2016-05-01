@@ -2,16 +2,16 @@
 ## Course Project
 
 ## Written by: Michael Gregory
-## Date: 21-Jun-2015
+## Date: 1-May-2016
 
-library(dplyr)
-library(reshape2)
+if(!require(dplyr)) install.packages("dplyr")
+if(!require(reshape2)) install.packages("reshape2")
+if(!require(digest)) install.packages("digest")
 
 ## Set some general variables
 fileURL <- "https://d396qusza40orc.cloudfront.net/getdata%2Fprojectfiles%2FUCI%20HAR%20Dataset.zip"
 trueFileMD5 <- "d29710c9530a31f303801b6bc34bd895"
 trueFileVersion <- "1.0"
-##setwd("~/Documents/School/coursera/data science/getting and cleaning data/project")
 baseDir <- getwd()
 zipFile <- paste(baseDir,"/getdata-projectfiles-UCI HAR Dataset.zip", sep="")
 zipFileList <- list()
@@ -25,13 +25,14 @@ if(!file.exists(zipFile)) {
         cat(sprintf("Downloading file %s \n\t to location %s.\n", fileURL, zipFile))
         download.file(fileURL, destfile=zipFile, method="curl",quiet=TRUE)
         dateDownloaded <- date()
-        zipFileMD5 <- digest::digest(algo = "md5", file=zipFile)
-        if(zipFileMD5 != trueFileMD5) {
-                warning("Downloaded file has changed from original source for this script.  
-                        This script may not work as originally intended.")
-        }
+
 } else cat(sprintf("Download file already exists in specified location. \n\t Using File: %s \n",zipFile))
 
+zipFileMD5 <- digest::digest(algo = "md5", file=zipFile)
+if(zipFileMD5 != trueFileMD5) {
+        warning("Downloaded file has changed from original source for this script.  
+                This script may not work as originally intended.")
+}
 
 ## 1. Merges the training and the test sets to create one data set.  
 
@@ -68,13 +69,13 @@ cat(sprintf("Extracting only *mean() and *std() variables from dataset.\n"))
 mergeDF <- mergeDF[,c(1,2,grep("std\\(\\)|mean\\(\\)",names(mergeDF)))]
 
 
-## 3. Uses descriptive activity names to name the activities in the data set
+## 3. Assign descriptive activity names to name the activities in the data set
 cat(sprintf("Adding descriptive activity names.\n"))
 activity_labelsDF <- read.table(unz(zipFile, "UCI HAR Dataset/activity_labels.txt"), row.names=NULL)  
 mergeDF$activity <- as.character(factor(mergeDF$activity, labels=activity_labelsDF[,2]))
 
 
-## 4. Appropriately labels the data set with descriptive variable names. 
+## 4. Label the data set with descriptive variable names. 
 
 ##need to remove "-" and "()" from column names
 cat(sprintf("Cleaning up column names.\n"))
@@ -84,7 +85,7 @@ cNames<-gsub("\\(\\)","",cNames)
 colnames(mergeDF) <- cNames
 
 
-## 5. From the data set in step 4, creates a second, independent tidy data set with the average of 
+## 5. From the data set in step 4, create a second, independent tidy data set with the average of 
 ##    each variable for each activity and each subject.
 cat(sprintf("Creating summary data frame with subject and activity by mean.\n"))
 meltDF<-melt(mergeDF,id.vars=c("subject","activity"))
@@ -94,4 +95,3 @@ summaryDF<-dcast(meltDF,subject+activity~...,mean)
 ##output data set as a txt file created with write.table() using row.name=FALSE
 cat(sprintf("Saving summary data frame to \n\t File: %s.\n", outputFile))
 write.table(summaryDF, file=outputFile, row.name=FALSE)
-
